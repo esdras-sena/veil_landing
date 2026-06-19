@@ -52,18 +52,26 @@ const steps = [
   { n: "04", title: "Disclose", body: "Issuers keep freeze & recovery; auditors get view-key access only when the law requires." },
 ];
 
-const columns = ["Veil", "Public DeFi", "Privacy L2", "Permissioned DLT", "CEX / off-chain"];
+type Mark = "yes" | "partial" | "no";
 
-type Mark = "yes" | "partial" | "no" | "na";
-const rows: { label: string; cells: Mark[] }[] = [
-  { label: "Confidential positions & balances", cells: ["yes", "no", "yes", "partial", "partial"] },
-  { label: "Built-in KYC + ERC-3643 compliance", cells: ["yes", "no", "no", "yes", "yes"] },
-  { label: "Issuer freeze & recovery (clawback)", cells: ["yes", "no", "no", "partial", "yes"] },
-  { label: "Auditor selective disclosure (view keys)", cells: ["yes", "no", "partial", "partial", "no"] },
-  { label: "Private atomic settlement (DvP)", cells: ["yes", "no", "partial", "yes", "yes"] },
-  { label: "Public, permissionless chain — self-custody", cells: ["yes", "yes", "yes", "no", "no"] },
-  { label: "No trusted setup (STARK proofs)", cells: ["yes", "na", "no", "na", "na"] },
-  { label: "Native in-protocol proof verification", cells: ["yes", "no", "no", "no", "no"] },
+const compCols = [
+  "Confidential holdings",
+  "KYC + auditor disclosure",
+  "RWA issuer controls",
+  "Private DvP settlement",
+  "Public chain · self-custody",
+];
+
+const compRows: { name: string; approach: string; highlight?: boolean; cells: Mark[] }[] = [
+  { name: "Veil", approach: "zk-STARK · Starknet", highlight: true, cells: ["yes", "yes", "yes", "yes", "yes"] },
+  { name: "Zama", approach: "FHE · fhEVM (cross-chain)", cells: ["yes", "partial", "partial", "partial", "yes"] },
+  { name: "Canton Network", approach: "Permissioned · need-to-know", cells: ["yes", "yes", "yes", "yes", "no"] },
+  { name: "Aztec", approach: "zk-SNARK · privacy L2", cells: ["yes", "partial", "no", "partial", "yes"] },
+  { name: "Aleo", approach: "zk-SNARK · privacy L1", cells: ["yes", "partial", "no", "no", "yes"] },
+  { name: "Railgun", approach: "zk · EVM privacy system", cells: ["yes", "partial", "no", "no", "yes"] },
+  { name: "Panther", approach: "zk · privacy DeFi", cells: ["yes", "partial", "no", "no", "yes"] },
+  { name: "Renegade", approach: "MPC + zk · dark pool", cells: ["yes", "no", "no", "yes", "yes"] },
+  { name: "Confidential EVMs", approach: "TEE / FHE · Oasis, Inco, Fhenix, COTI", cells: ["yes", "no", "no", "no", "yes"] },
 ];
 
 /* ----------------------------------------------------------- components --- */
@@ -71,8 +79,7 @@ const rows: { label: string; cells: Mark[] }[] = [
 function Mark({ v }: { v: Mark }) {
   if (v === "yes") return <span className="text-[var(--color-gold-soft)] text-lg leading-none">✓</span>;
   if (v === "partial") return <span className="text-[var(--color-faint)] text-lg leading-none">◐</span>;
-  if (v === "no") return <span className="text-[var(--color-faint)]/50 text-lg leading-none">✕</span>;
-  return <span className="text-[var(--color-faint)]/40 text-sm leading-none">—</span>;
+  return <span className="text-[var(--color-faint)]/50 text-lg leading-none">✕</span>;
 }
 
 function Logo({ size = 30 }: { size?: number }) {
@@ -251,41 +258,36 @@ export default function Home() {
           </h2>
 
           <div className="mt-12 overflow-x-auto">
-            <table className="w-full min-w-[760px] border-collapse text-sm">
+            <table className="w-full min-w-[880px] border-collapse text-sm">
               <thead>
-                <tr>
-                  <th className="w-[34%] py-4 pr-4 text-left font-medium text-[var(--color-faint)]">
-                    Capability
-                  </th>
-                  {columns.map((c, i) => (
-                    <th
-                      key={c}
-                      className={`px-3 py-4 text-center font-medium ${
-                        i === 0
-                          ? "rounded-t-xl border-x border-t border-[var(--color-gold)]/40 bg-[var(--color-gold)]/[0.06] text-[var(--color-gold-soft)]"
-                          : "text-[var(--color-muted)]"
-                      }`}
-                    >
+                <tr className="text-[var(--color-faint)]">
+                  <th className="py-4 pr-4 text-left font-medium">Protocol</th>
+                  <th className="px-3 py-4 text-left font-medium">Approach</th>
+                  {compCols.map((c) => (
+                    <th key={c} className="px-3 py-4 text-center font-medium">
                       {c}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {rows.map((r, ri) => (
-                  <tr key={r.label} className="border-t border-[var(--color-line)]">
-                    <td className="py-3.5 pr-4 text-left text-[var(--color-ink)]/90">{r.label}</td>
+                {compRows.map((r) => (
+                  <tr
+                    key={r.name}
+                    className={`border-t border-[var(--color-line)] ${
+                      r.highlight ? "bg-[var(--color-gold)]/[0.06]" : ""
+                    }`}
+                  >
+                    <td
+                      className={`py-3.5 pr-4 text-left font-medium ${
+                        r.highlight ? "text-[var(--color-gold-soft)]" : "text-[var(--color-ink)]"
+                      }`}
+                    >
+                      {r.name}
+                    </td>
+                    <td className="px-3 py-3.5 text-left text-xs text-[var(--color-muted)]">{r.approach}</td>
                     {r.cells.map((cell, ci) => (
-                      <td
-                        key={ci}
-                        className={`px-3 py-3.5 text-center ${
-                          ci === 0
-                            ? `border-x border-[var(--color-gold)]/40 bg-[var(--color-gold)]/[0.06] ${
-                                ri === rows.length - 1 ? "rounded-b-xl border-b" : ""
-                              }`
-                            : ""
-                        }`}
-                      >
+                      <td key={ci} className="px-3 py-3.5 text-center">
                         <Mark v={cell} />
                       </td>
                     ))}
@@ -297,14 +299,22 @@ export default function Home() {
 
           <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-[var(--color-faint)]">
             <span><span className="text-[var(--color-gold-soft)]">✓</span> supported</span>
-            <span><span className="text-[var(--color-faint)]">◐</span> partial / varies</span>
-            <span><span className="text-[var(--color-faint)]/50">✕</span> not supported</span>
-            <span><span className="text-[var(--color-faint)]/50">—</span> n/a</span>
+            <span><span className="text-[var(--color-faint)]">◐</span> partial / emerging</span>
+            <span><span className="text-[var(--color-faint)]/50">✕</span> not a focus</span>
           </div>
+          <p className="mt-5 max-w-3xl text-sm leading-relaxed text-[var(--color-muted)]">
+            Closest overlaps: <span className="text-[var(--color-ink)]">Canton Network</span> leads institutional
+            RWA but is permissioned — no public-chain access or self-custody; <span className="text-[var(--color-ink)]">Zama</span> brings
+            FHE confidential tokens to Ethereum but isn&apos;t an RWA settlement venue with issuer controls and DvP;
+            <span className="text-[var(--color-ink)]"> Renegade</span> nails private trading but carries no compliance
+            or issuer layer. Veil is the only one combining confidential holdings, ERC-3643 compliance with auditor
+            disclosure, issuer controls, and private DvP on a public, self-custodial chain.
+          </p>
           <p className="mt-4 max-w-3xl text-xs leading-relaxed text-[var(--color-faint)]">
-            Reflects design capabilities by category, not a feature-by-feature audit of every product. Categories:
-            transparent on-chain DeFi; privacy-focused L2s (e.g. Aztec); permissioned DLT (e.g. Corda / Canton);
-            centralized / off-chain venues. Veil is live on Starknet Sepolia (testnet) and pending independent audit.
+            Positioning as of mid-2026, by each project&apos;s primary design focus — not a feature-by-feature audit.
+            &quot;Confidential EVMs&quot; groups TEE/FHE infrastructure (Oasis Sapphire, Inco, Fhenix, COTI). Veil is
+            live on Starknet Sepolia (testnet) and pending independent audit. Sources: project docs, Messari,
+            CoinGecko, Canton Network.
           </p>
         </div>
       </section>

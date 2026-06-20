@@ -47,8 +47,8 @@ const features = [
 
 const steps = [
   { n: "01", title: "Deposit", body: "A tokenized RWA enters the pool and becomes an encrypted holding." },
-  { n: "02", title: "Trade", body: "Your venue matches orders off-chain — the book and identities never touch the chain." },
-  { n: "03", title: "Settle", body: "Veil settles privately on-chain via atomic DvP; balances and counterparties stay hidden." },
+  { n: "02", title: "Transact", body: "Hold, transfer or trade through your platform — exchange, issuer, fund or desk. Any order flow or matching stays off-chain." },
+  { n: "03", title: "Settle", body: "Veil settles privately on-chain — atomic DvP for trades, confidential transfers otherwise. Balances and counterparties stay hidden." },
   { n: "04", title: "Disclose", body: "Issuers keep freeze & recovery; auditors get view-key access only when the law requires." },
 ];
 
@@ -180,18 +180,18 @@ export default function Home() {
         <div className="mx-auto max-w-5xl">
           <p className="kicker mb-4">The layer</p>
           <h2 className="font-serif text-3xl leading-tight text-gradient md:text-4xl">
-            You run the venue. Veil is the confidential settlement underneath.
+            You run the platform. Veil is the confidential settlement underneath.
           </h2>
           <p className="mt-4 max-w-2xl text-[var(--color-muted)]">
-            Veil is not an exchange. Matching, liquidity and execution stay with your platform; Veil settles
-            the result privately and compliantly on-chain.
+            Veil isn&apos;t an exchange or an issuer. Exchanges, issuers, funds and desks keep their product,
+            users and operations; Veil settles the result privately and compliantly on-chain.
           </p>
 
           <div className="mt-12 space-y-3">
             <div className="panel rounded-2xl px-6 py-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <span className="font-serif text-lg tracking-wide text-[var(--color-ink)]">YOUR VENUE</span>
-                <span className="text-sm text-[var(--color-muted)]">Matching · Liquidity · Execution · UX</span>
+                <span className="font-serif text-lg tracking-wide text-[var(--color-ink)]">YOUR PLATFORM</span>
+                <span className="text-sm text-[var(--color-muted)]">Exchange · Issuer · Fund · Desk — product, users, UX</span>
               </div>
             </div>
             <div className="text-center text-xs tracking-[0.25em] text-[var(--color-gold)]">

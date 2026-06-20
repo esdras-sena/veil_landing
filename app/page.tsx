@@ -345,7 +345,7 @@ export default function Home() {
               ))}
             </ul>
             <p className="mt-10 text-sm text-[var(--color-faint)]">
-              Prefer email? <a className="text-[var(--color-gold-soft)] underline-offset-4 hover:underline" href="mailto:esdrassenasantos@gmail.com">esdrassenasantos@gmail.com</a>
+              Prefer email? <a className="text-[var(--color-gold-soft)] underline-offset-4 hover:underline" href="mailto:esantoz@protonmail.com">esantoz@protonmail.com</a>
             </p>
           </div>
 
@@ -367,7 +367,7 @@ export default function Home() {
           <div className="flex flex-col items-center gap-2 text-xs text-[var(--color-faint)] md:items-end">
             <div className="flex gap-5">
               <a className="transition hover:text-[var(--color-ink)]" href="https://x.com/Veil_rwa" target="_blank" rel="noreferrer">X / Twitter</a>
-              <a className="transition hover:text-[var(--color-ink)]" href="mailto:esdrassenasantos@gmail.com">Contact</a>
+              <a className="transition hover:text-[var(--color-ink)]" href="mailto:esantoz@protonmail.com">Contact</a>
               <a className="transition hover:text-[var(--color-ink)]" href="#pilot">Apply</a>
             </div>
             <p className="mt-2 tracking-[0.2em]">CONFIDENTIAL · COMPLIANT · ON-CHAIN</p>

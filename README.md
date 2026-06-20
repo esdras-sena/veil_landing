@@ -20,7 +20,7 @@ The form posts to `app/api/apply/route.ts`. Without a `RESEND_API_KEY` it return
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `RESEND_API_KEY` | yes (for the form) | Resend API key — create one at resend.com |
-| `APPLY_TO_EMAIL` | recommended | Where applications are delivered (default: `esdrassenasantos@gmail.com`) |
+| `APPLY_TO_EMAIL` | recommended | Where applications are delivered (default: `esantoz@protonmail.com`) |
 | `APPLY_FROM_EMAIL` | recommended | Verified sender. Defaults to Resend's sandbox `onboarding@resend.dev` |
 
 **Sandbox vs production sender:** `onboarding@resend.dev` works immediately but only delivers to

@@ -3,7 +3,7 @@ import { Resend } from "resend";
 
 export const runtime = "nodejs";
 
-const TO = process.env.APPLY_TO_EMAIL || "esdrassenasantos@gmail.com";
+const TO = process.env.APPLY_TO_EMAIL || "esantoz@protonmail.com";
 const FROM = process.env.APPLY_FROM_EMAIL || "Veil Pilot <onboarding@resend.dev>";
 
 const isEmail = (s: unknown) => typeof s === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);

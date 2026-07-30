@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ApplyForm from "./components/ApplyForm";
+import RwaBadge from "./components/RwaBadge";
 
 /* ----------------------------------------------------------------- data --- */
 
@@ -150,6 +151,9 @@ export default function Home() {
           <p className="mt-10 text-xs leading-relaxed text-[var(--color-faint)]">
             Starknet-native · SNIP-36 in-protocol proofs · Stwo STARK — no trusted setup · ERC-3643 + ERC-721 · Live on Sepolia
           </p>
+          <div className="mt-7 flex justify-center">
+            <RwaBadge />
+          </div>
         </div>
       </section>
 
@@ -363,6 +367,9 @@ export default function Home() {
             <p className="mt-3 max-w-sm text-xs leading-relaxed text-[var(--color-faint)]">
               The privacy and compliance layer for tokenized real-world assets on Starknet.
             </p>
+            <div className="mt-5 flex justify-center md:justify-start">
+              <RwaBadge />
+            </div>
           </div>
           <div className="flex flex-col items-center gap-2 text-xs text-[var(--color-faint)] md:items-end">
             <div className="flex gap-5">

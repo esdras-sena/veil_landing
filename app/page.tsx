@@ -42,7 +42,7 @@ const features = [
   },
   {
     title: "Starknet-native proofs",
-    body: "SNIP-36 in-protocol verification with the Stwo STARK prover — no trusted setup, post-quantum, no new chain, no bridge.",
+    body: "SNIP-36 in-protocol verification with the Stwo STARK prover — no trusted setup, post-quantum, no new chain. If you're on Starknet, you need no bridge.",
   },
 ];
 
@@ -271,7 +271,7 @@ export default function Home() {
               </div>
             </div>
             <div className="rounded-2xl border border-[var(--color-line)] px-6 py-4 text-center text-sm text-[var(--color-faint)]">
-              STARKNET — native to your stack. No new chain, no bridge.
+              STARKNET — no new chain. If you&apos;re on Starknet, you need no bridge.
             </div>
           </div>
         </div>

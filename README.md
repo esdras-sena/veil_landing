@@ -1,7 +1,7 @@
 # Veil — landing page
 
 Institutional landing page for **Veil**, the private, compliant settlement layer for tokenized
-real-world assets on Starknet. Next.js (App Router) + Tailwind v4, with an "Apply for the pilot"
+real-world assets, built on Starknet and open to EVM chains through the Veil Bridge. Next.js (App Router) + Tailwind v4, with an "Apply for the pilot"
 form that emails each application to you via [Resend](https://resend.com).
 
 ## Local development
@@ -53,6 +53,6 @@ vercel --prod     # production
 
 ## Notes on honesty
 
-The comparison table and copy describe Veil accurately: it is **live on Starknet Sepolia (testnet),
-pending independent audit**, and the DvP settlement is **Tier 1** (private identity + holdings; trade
+The comparison table and copy describe Veil accurately: it is **live on testnet (Starknet Sepolia, with the
+Veil Bridge to Ethereum Sepolia), pending independent audit**, and the DvP settlement is **Tier 1** (private identity + holdings; trade
 amounts public, like a lit exchange). Keep these qualifiers if you edit the copy.

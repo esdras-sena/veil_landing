@@ -19,7 +19,7 @@ const problems = [
   },
 ];
 
-const features = [
+const features: { title: string; body: string; highlight?: boolean }[] = [
   {
     title: "Encrypted holdings",
     body: "A tokenized asset becomes an encrypted note on-chain — ownership, amounts and transfers hidden from everyone but you and authorized auditors.",
@@ -42,12 +42,17 @@ const features = [
   },
   {
     title: "Starknet-native proofs",
-    body: "SNIP-36 in-protocol verification with the Stwo STARK prover — no trusted setup, post-quantum, no new chain. If you're on Starknet, you need no bridge.",
+    body: "SNIP-36 in-protocol verification with the Stwo STARK prover — no trusted setup, post-quantum, no new chain.",
+  },
+  {
+    title: "Built on Starknet. Open to EVM.",
+    body: "If you're on Starknet, you need no bridge. If you're on Ethereum or another EVM chain, the Veil Bridge carries your permissioned tokens into Veil and back — and your investors keep the EVM wallets they already use, with no Starknet account.",
+    highlight: true,
   },
 ];
 
 const steps = [
-  { n: "01", title: "Deposit", body: "A tokenized RWA enters the pool and becomes an encrypted holding." },
+  { n: "01", title: "Deposit", body: "A tokenized RWA enters the pool — directly on Starknet, or through the Veil Bridge from an EVM chain — and becomes an encrypted holding." },
   { n: "02", title: "Transact", body: "Hold, transfer or trade through your platform — exchange, issuer, fund or desk. Any order flow or matching stays off-chain." },
   { n: "03", title: "Settle", body: "Veil settles privately on-chain — atomic DvP for trades, confidential transfers otherwise. Balances and counterparties stay hidden." },
   { n: "04", title: "Disclose", body: "Issuers keep freeze & recovery; auditors get view-key access only when the law requires." },
@@ -88,7 +93,7 @@ const compCols = [
 ];
 
 const compRows: { name: string; approach: string; highlight?: boolean; cells: Mark[] }[] = [
-  { name: "Veil", approach: "zk-STARK · Starknet", highlight: true, cells: ["yes", "yes", "yes", "yes", "yes"] },
+  { name: "Veil", approach: "zk-STARK · Starknet, open to EVM", highlight: true, cells: ["yes", "yes", "yes", "yes", "yes"] },
   { name: "Zama", approach: "FHE · fhEVM (cross-chain)", cells: ["yes", "partial", "partial", "partial", "yes"] },
   { name: "Canton Network", approach: "Permissioned · need-to-know", cells: ["yes", "yes", "yes", "yes", "no"] },
   { name: "Aztec", approach: "zk-SNARK · privacy L2", cells: ["yes", "partial", "no", "partial", "yes"] },
@@ -198,7 +203,8 @@ export default function Home() {
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] md:text-lg">
             Veil turns a tokenized asset into an encrypted holding — ownership, balances and transfers hidden —
             while KYC, issuer controls and authorized-auditor view keys stay fully intact. The confidential
-            settlement layer for institutions, built on Starknet.
+            settlement layer for institutions — built on Starknet, open to platforms on Ethereum and other EVM
+            chains.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a href="#pilot" className="btn-gold w-full rounded-full px-7 py-3.5 text-sm sm:w-auto">
@@ -208,9 +214,20 @@ export default function Home() {
               How it works
             </a>
           </div>
-          <p className="mt-10 text-xs leading-relaxed text-[var(--color-faint)]">
-            Starknet-native · SNIP-36 in-protocol proofs · Stwo STARK — no trusted setup · ERC-3643 + ERC-721 ·{" "}
-            <span className="whitespace-nowrap">EVM wallets, no Starknet account</span> · Live on Sepolia
+          <p className="mt-10 text-balance text-xs leading-relaxed text-[var(--color-faint)]">
+            {[
+              "Built on Starknet",
+              "SNIP-36 in-protocol proofs",
+              "Stwo STARK — no trusted setup",
+              "ERC-3643 + ERC-721",
+              "EVM wallets, no Starknet account",
+              "Live on Sepolia",
+            ].map((s, i) => (
+              <span key={s}>
+                {i > 0 && " · "}
+                <span className="whitespace-nowrap">{s}</span>
+              </span>
+            ))}
           </p>
           <div className="mt-7 flex justify-center">
             <RwaBadge />
@@ -249,7 +266,8 @@ export default function Home() {
           </h2>
           <p className="mt-4 max-w-2xl text-[var(--color-muted)]">
             Veil isn&apos;t an exchange or an issuer. Exchanges, issuers, funds and desks keep their product,
-            users and operations; Veil settles the result privately and compliantly on-chain.
+            users and operations — on Starknet or on an EVM chain — and Veil settles the result privately and
+            compliantly on-chain.
           </p>
 
           <div className="mt-12 space-y-3">
@@ -270,8 +288,15 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <div className="rounded-2xl border border-[var(--color-line)] px-6 py-4 text-center text-sm text-[var(--color-faint)]">
-              STARKNET — no new chain. If you&apos;re on Starknet, you need no bridge.
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="text-balance rounded-2xl border border-[var(--color-line)] px-6 py-4 text-center text-sm text-[var(--color-faint)]">
+                <span className="text-[var(--color-muted)]">STARKNET</span>{" "}
+                — Veil runs here. If you&apos;re on Starknet, you need no bridge.
+              </div>
+              <div className="text-balance rounded-2xl border border-[var(--color-line)] px-6 py-4 text-center text-sm text-[var(--color-faint)]">
+                <span className="text-[var(--color-muted)]">EVM CHAINS</span> — connect through the Veil Bridge. Your
+                investors keep their EVM wallets.
+              </div>
             </div>
           </div>
         </div>
@@ -285,12 +310,27 @@ export default function Home() {
             Privacy by default. Disclosure only when the law demands.
           </h2>
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f) => (
-              <div key={f.title} className="panel panel-hover rounded-2xl p-6">
-                <h3 className="text-base font-medium text-[var(--color-ink)]">{f.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">{f.body}</p>
-              </div>
-            ))}
+            {features.map((f) =>
+              f.highlight ? (
+                <div
+                  key={f.title}
+                  className="rounded-2xl border border-[var(--color-gold)]/40 bg-[var(--color-panel)] p-6 sm:col-span-2 lg:col-span-3"
+                >
+                  <h3 className="text-base font-medium text-[var(--color-ink)]">{f.title}</h3>
+                  <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[var(--color-muted)]">{f.body}</p>
+                  <a href="#docs" className="group mt-4 inline-block text-sm">
+                    <span className="text-[var(--color-gold-soft)] transition group-hover:text-[var(--color-ink)]">
+                      See the EVM integration docs →
+                    </span>
+                  </a>
+                </div>
+              ) : (
+                <div key={f.title} className="panel panel-hover rounded-2xl p-6">
+                  <h3 className="text-base font-medium text-[var(--color-ink)]">{f.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">{f.body}</p>
+                </div>
+              ),
+            )}
           </div>
         </div>
       </section>
@@ -405,16 +445,18 @@ export default function Home() {
           </div>
           <p className="mt-5 max-w-3xl text-sm leading-relaxed text-[var(--color-muted)]">
             Closest overlaps: <span className="text-[var(--color-ink)]">Canton Network</span> leads institutional
-            RWA but is permissioned — no public-chain access or self-custody; <span className="text-[var(--color-ink)]">Zama</span> brings
-            FHE confidential tokens to Ethereum but isn&apos;t an RWA settlement venue with issuer controls and DvP;
+            RWA but is permissioned — no public-chain access or self-custody; <span className="text-[var(--color-ink)]">Zama</span>{" "}
+            brings FHE confidential tokens to Ethereum but isn&apos;t an RWA settlement venue with issuer controls and DvP;
             <span className="text-[var(--color-ink)]"> Renegade</span> nails private trading but carries no compliance
             or issuer layer. Veil is the only one combining confidential holdings, ERC-3643 compliance with auditor
-            disclosure, issuer controls, and private DvP on a public, self-custodial chain.
+            disclosure, issuer controls, and private DvP on a public, self-custodial chain — for platforms on
+            Starknet and EVM chains alike.
           </p>
           <p className="mt-4 max-w-3xl text-xs leading-relaxed text-[var(--color-faint)]">
             Positioning as of mid-2026, by each project&apos;s primary design focus — not a feature-by-feature audit.
             &quot;Confidential EVMs&quot; groups TEE/FHE infrastructure (Oasis Sapphire, Inco, Fhenix, COTI). Veil is
-            live on Starknet Sepolia (testnet) and pending independent audit. Sources: project docs, Messari,
+            live on testnet (Starknet Sepolia, with the Veil Bridge to Ethereum Sepolia) and pending independent
+            audit. Sources: project docs, Messari,
             CoinGecko, Canton Network.
           </p>
         </div>
@@ -486,15 +528,15 @@ export default function Home() {
               Prove a confidential RWA market end-to-end — at zero risk.
             </h2>
             <p className="mt-5 max-w-md text-[var(--color-muted)]">
-              We run a low-risk pilot entirely on Starknet testnet: private positions, compliant settlement,
-              issuer controls and auditor access. Contracts are deployed and the SDK is ready — it&apos;s mostly
+              We run a low-risk pilot entirely on testnet, whether your platform is on Starknet or an EVM chain:
+              private positions, compliant settlement, issuer controls and auditor access. Contracts are deployed and the SDK is ready — it&apos;s mostly
               integration.
             </p>
             <ul className="mt-8 space-y-3 text-sm text-[var(--color-muted)]">
               {[
                 "Zero production exposure, zero regulatory exposure.",
                 "A working demo in a few weeks.",
-                "For exchanges, RWA issuers, funds and institutional desks.",
+                "For exchanges, RWA issuers, funds and institutional desks — on Starknet or EVM.",
               ].map((t) => (
                 <li key={t} className="flex gap-3">
                   <span className="mt-0.5 text-[var(--color-gold-soft)]">✓</span>
@@ -519,7 +561,8 @@ export default function Home() {
           <div>
             <Logo size={26} />
             <p className="mt-3 max-w-sm text-xs leading-relaxed text-[var(--color-faint)]">
-              The privacy and compliance layer for tokenized real-world assets on Starknet.
+              The privacy and compliance layer for tokenized real-world assets — built on Starknet, open to EVM
+              chains.
             </p>
             <div className="mt-5 flex justify-center md:justify-start">
               <RwaBadge />

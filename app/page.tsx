@@ -53,6 +53,30 @@ const steps = [
   { n: "04", title: "Disclose", body: "Issuers keep freeze & recovery; auditors get view-key access only when the law requires." },
 ];
 
+const demos = [
+  {
+    name: "Veil Bridge",
+    kind: "Permissioned bridge",
+    body: "Move an ERC-3643 or gated ERC-20 from Ethereum into Veil and back. Eligibility travels with the tokens, and one EVM wallet holds the position on both chains.",
+    network: "Ethereum Sepolia ↔ Starknet Sepolia",
+    href: "https://veil-permissioned-bridge.vercel.app",
+  },
+  {
+    name: "HyperVeil",
+    kind: "Private spot trading",
+    body: "Trade Hyperliquid spot privately from Starknet — deposit, trade and withdraw, with settlement in Veil.",
+    network: "Starknet Sepolia · Hyperliquid testnet",
+    href: "https://hyperveil.vercel.app",
+  },
+  {
+    name: "VeilX",
+    kind: "Permissioned DEX",
+    body: "Swap tokenized real-world assets on Ekubo. Compliance is enforced by the pool itself, and private swaps hide the trader, not the trade.",
+    network: "Ekubo · Starknet Sepolia",
+    href: "https://veilx-one.vercel.app",
+  },
+];
+
 type Mark = "yes" | "partial" | "no";
 
 const compCols = [
@@ -73,6 +97,40 @@ const compRows: { name: string; approach: string; highlight?: boolean; cells: Ma
   { name: "Panther", approach: "zk · privacy DeFi", cells: ["yes", "partial", "no", "no", "yes"] },
   { name: "Renegade", approach: "MPC + zk · dark pool", cells: ["yes", "no", "no", "yes", "yes"] },
   { name: "Confidential EVMs", approach: "TEE / FHE · Oasis, Inco, Fhenix, COTI", cells: ["yes", "no", "no", "no", "yes"] },
+];
+
+const evmPoints = [
+  {
+    title: "No new Starknet wallet",
+    body: "The investor's existing EVM wallet holds the private position in Veil, under the same address. Nothing to create, fund or link.",
+  },
+  {
+    title: "No Starknet key or gas",
+    body: "The wallet signs each Veil action with personal_sign; Veil's proof service proves and submits it on Starknet.",
+  },
+  {
+    title: "Your records stay authoritative",
+    body: "One lockbox contract per instrument reads your identity registry, allowlist or rules engine live.",
+  },
+];
+
+const docs = [
+  {
+    label: "EVM integration guide",
+    title: "Veil Bridge for EVM platforms",
+    body: "For EVM platforms that issue, administer or distribute permissioned assets — tokenization platforms, transfer agents and fund platforms. ERC-3643, allowlisted and rule-gated ERC-20, with Solidity and Veil SDK code for every step.",
+    topics: [
+      "Architecture",
+      "Lockbox contract",
+      "Instrument onboarding",
+      "Bridge in & out",
+      "USDC cash leg",
+      "Eligibility sync",
+      "Lawful-access audit",
+      "Security model",
+    ],
+    href: "https://claude.ai/artifact/DdFD71imzWzLyoSKWVwNis",
+  },
 ];
 
 /* ----------------------------------------------------------- components --- */
@@ -101,10 +159,12 @@ export default function Home() {
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--color-line)] bg-[var(--color-bg)]/70 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
           <Logo />
-          <div className="hidden items-center gap-8 text-sm text-[var(--color-muted)] md:flex">
+          <div className="hidden items-center gap-6 text-sm text-[var(--color-muted)] md:flex lg:gap-8">
             <a className="transition hover:text-[var(--color-ink)]" href="#problem">The blocker</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#how">How it works</a>
+            <a className="transition hover:text-[var(--color-ink)]" href="#demos">Demos</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#compare">Compare</a>
+            <a className="transition hover:text-[var(--color-ink)]" href="#docs">Docs</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#pilot">Pilot</a>
           </div>
           <a href="#pilot" className="btn-gold rounded-full px-4 py-2 text-sm">
@@ -149,7 +209,8 @@ export default function Home() {
             </a>
           </div>
           <p className="mt-10 text-xs leading-relaxed text-[var(--color-faint)]">
-            Starknet-native · SNIP-36 in-protocol proofs · Stwo STARK — no trusted setup · ERC-3643 + ERC-721 · Live on Sepolia
+            Starknet-native · SNIP-36 in-protocol proofs · Stwo STARK — no trusted setup · ERC-3643 + ERC-721 ·{" "}
+            <span className="whitespace-nowrap">EVM wallets, no Starknet account</span> · Live on Sepolia
           </p>
           <div className="mt-7 flex justify-center">
             <RwaBadge />
@@ -253,6 +314,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Demos */}
+      <section id="demos" className="border-t border-[var(--color-line)] px-5 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <p className="kicker mb-4">Live demos</p>
+          <h2 className="font-serif text-3xl leading-tight text-gradient md:text-4xl">
+            See Veil running — three live demos.
+          </h2>
+          <p className="mt-4 max-w-2xl text-[var(--color-muted)]">
+            Working apps on public testnets: bridge a permissioned asset from Ethereum, trade Hyperliquid spot
+            privately, and swap tokenized RWAs on a permissioned DEX.
+          </p>
+          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+            {demos.map((d) => (
+              <a
+                key={d.name}
+                href={d.href}
+                target="_blank"
+                rel="noreferrer"
+                className="panel panel-hover group flex flex-col rounded-2xl p-6"
+              >
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-gold)]">{d.kind}</p>
+                <h3 className="mt-3 font-serif text-2xl text-[var(--color-ink)]">{d.name}</h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[var(--color-muted)]">{d.body}</p>
+                <p className="mt-5 text-xs text-[var(--color-faint)]">{d.network}</p>
+                <div className="mt-4 flex items-center justify-between gap-3 border-t border-[var(--color-line)] pt-4">
+                  <span className="min-w-0 truncate text-xs text-[var(--color-muted)] transition group-hover:text-[var(--color-ink)]">
+                    {d.href.replace("https://", "")}
+                  </span>
+                  <span aria-hidden="true" className="shrink-0 text-[var(--color-gold-soft)]">↗</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Comparison */}
       <section id="compare" className="border-t border-[var(--color-line)] px-5 py-20 md:py-24">
         <div className="mx-auto max-w-6xl">
@@ -323,6 +420,63 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Integration docs */}
+      <section id="docs" className="border-t border-[var(--color-line)] px-5 py-20 md:py-24">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className="kicker mb-4">Integration docs</p>
+            <h2 className="font-serif text-3xl leading-tight text-gradient md:text-4xl">
+              Integrate from EVM. Your investors keep their EVM wallets.
+            </h2>
+            <p className="mt-5 max-w-md text-[var(--color-muted)]">
+              EVM platforms add Veil through the Veil Bridge and integrate only on the EVM side. Veil deploys and
+              operates everything on Starknet.
+            </p>
+            <ul className="mt-8 space-y-4 text-sm leading-relaxed">
+              {evmPoints.map((p) => (
+                <li key={p.title} className="flex gap-3">
+                  <span className="mt-0.5 text-[var(--color-gold-soft)]">✓</span>
+                  <span className="text-[var(--color-muted)]">
+                    <span className="font-medium text-[var(--color-ink)]">{p.title}.</span> {p.body}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="space-y-5">
+            {docs.map((d) => (
+              <div
+                key={d.title}
+                className="rounded-2xl border border-[var(--color-gold)]/40 bg-[var(--color-panel)] p-6 md:p-8"
+              >
+                <p className="kicker">{d.label}</p>
+                <h3 className="mt-4 font-serif text-2xl text-[var(--color-ink)]">{d.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">{d.body}</p>
+                <ul className="mt-6 flex flex-wrap gap-2">
+                  {d.topics.map((t) => (
+                    <li
+                      key={t}
+                      className="rounded-full border border-[var(--color-line)] px-3 py-1 text-xs text-[var(--color-muted)]"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={d.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-gold mt-8 inline-flex rounded-full px-6 py-3 text-sm"
+                >
+                  Read the guide ↗
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Pilot / Apply */}
       <section id="pilot" className="border-t border-[var(--color-line)] px-5 py-20 md:py-28">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:gap-16">
@@ -374,6 +528,8 @@ export default function Home() {
           <div className="flex flex-col items-center gap-2 text-xs text-[var(--color-faint)] md:items-end">
             <div className="flex gap-5">
               <a className="transition hover:text-[var(--color-ink)]" href="https://x.com/Veil_rwa" target="_blank" rel="noreferrer">X / Twitter</a>
+              <a className="transition hover:text-[var(--color-ink)]" href="#demos">Demos</a>
+              <a className="transition hover:text-[var(--color-ink)]" href="#docs">Docs</a>
               <a className="transition hover:text-[var(--color-ink)]" href="mailto:esantoz@protonmail.com">Contact</a>
               <a className="transition hover:text-[var(--color-ink)]" href="#pilot">Apply</a>
             </div>

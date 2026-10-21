@@ -44,8 +44,8 @@ vercel --prod     # production
 
 ## Editing content
 
-- Copy, features, the comparison table, and the how-it-works steps are plain arrays at the top of
-  [`app/page.tsx`](app/page.tsx).
+- Copy, features, the comparison table, the how-it-works steps, the demos and the integration docs
+  are plain arrays at the top of [`app/page.tsx`](app/page.tsx).
 - Form fields live in [`app/components/ApplyForm.tsx`](app/components/ApplyForm.tsx).
 - Email formatting + delivery in [`app/api/apply/route.ts`](app/api/apply/route.ts).
 - Brand colors / fonts in [`app/globals.css`](app/globals.css) (`@theme` block).

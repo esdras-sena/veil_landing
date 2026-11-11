@@ -16,9 +16,9 @@ const inter = Inter({
   display: "swap",
 });
 
-const title = "Veil — Private, compliant settlement for tokenized real-world assets";
+const title = "Veil — Private, compliant settlement for permissioned ERC-20s and tokenized real-world assets";
 const description =
-  "Veil is the confidential, compliant settlement layer for tokenized real-world assets — for platforms on Ethereum, other EVM chains and Stellar, with private execution on Starknet. Hidden positions and balances, KYC + ERC-3643 compliance, issuer freeze & recovery, and authorized-auditor view keys.";
+  "Veil is the confidential, compliant settlement layer for tokenized real-world assets — for platforms on Ethereum, other EVM chains and Stellar, with private execution on Starknet. Permissioned ERC-20s — rule-gated and allowlisted — with ERC-3643 supported too: hidden positions and balances, issuer rules enforced inside every proof, issuer freeze & recovery, and authorized-auditor view keys.";
 
 export const metadata: Metadata = {
   title,

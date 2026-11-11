@@ -1,7 +1,7 @@
 # Veil — landing page
 
-Institutional landing page for **Veil**, the private, compliant settlement layer for tokenized
-real-world assets, serving platforms on EVM chains and Stellar through the Veil Bridge, with Starknet as the
+Institutional landing page for **Veil**, the private, compliant settlement layer for permissioned ERC-20s
+(rule-gated and allowlisted; ERC-3643 also supported) and tokenized real-world assets, serving platforms on EVM chains and Stellar through the Veil Bridge, with Starknet as the
 execution layer (SNIP-36 proofs). Next.js (App Router) + Tailwind v4, with an "Apply for the pilot"
 form that emails each application to you via [Resend](https://resend.com).
 

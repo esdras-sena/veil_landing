@@ -68,9 +68,9 @@ const supportedTokens = [
     body: "Eligibility and can-transfer are checked against the token's own identity registry and compliance contract, together with pause and freezes, plus the pool's optional country policy.",
   },
   {
-    kind: "NFT",
+    kind: "Unique assets",
     title: "ERC-721",
-    body: "Held in Veil's separate NFT pool: a deposited NFT becomes an encrypted note that its owner can transfer privately, approve someone else to transfer, or withdraw to a public address.",
+    body: "For one-of-a-kind tokenized assets such as real estate. Each token is held in Veil's dedicated ERC-721 pool as an encrypted note that its owner can transfer privately, approve someone else to transfer, or withdraw to a public address.",
   },
 ];
 

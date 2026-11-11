@@ -22,11 +22,11 @@ const problems = [
 const features: { title: string; body: string; highlight?: boolean }[] = [
   {
     title: "Encrypted holdings",
-    body: "A permissioned token becomes an encrypted note on-chain — ownership, amounts and transfers hidden from everyone but you and authorized auditors.",
+    body: "A tokenized asset becomes an encrypted note on-chain — ownership, amounts and transfers hidden from everyone but you and authorized auditors.",
   },
   {
-    title: "Permissioned ERC-20s, rule-gated or allowlisted",
-    body: "Every transfer is proven to satisfy the issuer's rules — for a rule-gated token, its rules contract (who may hold, freezes, pause, transfer switch, lock-ups, investor caps); for an allowlisted token, its allowlist and pause. Enforced privately, inside the proof. ERC-3643 tokens are supported too.",
+    title: "Issuer rules, enforced privately",
+    body: "Every transfer is proven to satisfy the issuer's rules — eligibility, freezes, pause and transfer rules — enforced privately, inside the proof.",
   },
   {
     title: "Issuer controls preserved",
@@ -48,6 +48,29 @@ const features: { title: string; body: string; highlight?: boolean }[] = [
     title: "For EVM and Stellar platforms",
     body: "Your issuers and investors stay where they are. The Veil Bridge carries permissioned tokens from Ethereum and other EVM chains into Veil and back over LayerZero V2, and investors sign with the EVM wallets they already use — no Starknet account. Stellar support — Stellar wallets and classic Stellar assets through the Stellar Asset Contract — is built and coming next.",
     highlight: true,
+  },
+];
+
+const supportedTokens = [
+  {
+    kind: "Permissioned ERC-20",
+    title: "Rule-gated",
+    body: "The issuer's rules contract decides who may hold, freezes, pause, whether transfers are on, and each transfer. Rules that depend on the sender's balance — locked amounts, investor caps, full-balance transfers, minimum holdings — are enforced inside the proof.",
+  },
+  {
+    kind: "Permissioned ERC-20",
+    title: "Allowlisted",
+    body: "Every holder must hold the issuer's allowlist role, and every movement needs the token unpaused and both sender and recipient on the list — the same check as the token's own transfer hook.",
+  },
+  {
+    kind: "Security token",
+    title: "ERC-3643",
+    body: "Eligibility and can-transfer are checked against the token's own identity registry and compliance contract, together with pause and freezes, plus the pool's optional country policy.",
+  },
+  {
+    kind: "NFT",
+    title: "ERC-721",
+    body: "Held in Veil's separate NFT pool: a deposited NFT becomes an encrypted note that its owner can transfer privately, approve someone else to transfer, or withdraw to a public address.",
   },
 ];
 
@@ -111,7 +134,7 @@ const whyStarknet = [
   },
   {
     title: "Full contract logic inside one proof",
-    body: "Each Veil action queries the token's rules contract or the issuer's allowlist (or, for an ERC-3643 token, its identity registry and compliance contract), decrypts the user's encrypted notes and verifies the wallet's signature — EVM secp256k1 today, Stellar Ed25519 next. SNIP-36 proves ordinary contract code, so this logic is written as contracts rather than a custom circuit, and a change to an issuer's rules applies to the next proof.",
+    body: "Each Veil action checks the token's rules, decrypts the user's encrypted notes and verifies the wallet's signature — EVM secp256k1 today, Stellar Ed25519 next. SNIP-36 proves ordinary contract code, so this logic is written as contracts rather than a custom circuit, and a change to an issuer's rules applies to the next proof.",
   },
   {
     title: "Proofs verified on-chain",
@@ -130,7 +153,7 @@ const evmPoints = [
   },
   {
     title: "Your records stay authoritative",
-    body: "One lockbox contract per instrument reads your rules engine (through a small adapter) or your allowlist live — or, for ERC-3643, your token's compliance.",
+    body: "One lockbox contract per instrument reads your identity registry, allowlist or rules engine live.",
   },
 ];
 
@@ -181,6 +204,7 @@ export default function Home() {
           <Logo />
           <div className="hidden items-center gap-6 text-sm text-[var(--color-muted)] md:flex lg:gap-8">
             <a className="transition hover:text-[var(--color-ink)]" href="#problem">The blocker</a>
+            <a className="transition hover:text-[var(--color-ink)]" href="#tokens">Supported tokens</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#how">How it works</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#why-starknet">Why Starknet</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#demos">Demos</a>
@@ -214,12 +238,11 @@ export default function Home() {
           </div>
           <p className="kicker mb-6">Confidential · Compliant · On-chain</p>
           <h1 className="font-serif text-4xl leading-[1.08] tracking-tight text-gradient sm:text-5xl md:text-6xl">
-            Private, compliant settlement for permissioned ERC-20s and tokenized real-world assets.
+            Private, compliant settlement for tokenized real-world assets.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] md:text-lg">
-            Veil turns a permissioned ERC-20 — rule-gated or allowlisted — into an encrypted holding: ownership,
-            balances and transfers hidden, while the issuer&apos;s rules, issuer controls and authorized-auditor view
-            keys stay fully intact. The confidential
+            Veil turns a tokenized asset into an encrypted holding — ownership, balances and transfers hidden —
+            while KYC, issuer controls and authorized-auditor view keys stay fully intact. The confidential
             settlement layer for institutions on Ethereum, other EVM chains and Stellar — with every private
             transaction proven and settled on Starknet.
           </p>
@@ -237,8 +260,6 @@ export default function Home() {
               "Execution layer: Starknet",
               "SNIP-36 in-protocol proofs",
               "Stwo STARK — no trusted setup",
-              "Rule-gated + allowlisted ERC-20s",
-              "ERC-3643 supported",
               "EVM wallets, no Starknet account",
               "Live on Sepolia",
             ].map((s, i) => (
@@ -350,6 +371,25 @@ export default function Home() {
                 </div>
               ),
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Supported tokens */}
+      <section id="tokens" className="border-t border-[var(--color-line)] px-5 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <p className="kicker mb-4">Supported tokens</p>
+          <h2 className="font-serif text-3xl leading-tight text-gradient md:text-4xl">
+            The token standards Veil supports.
+          </h2>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {supportedTokens.map((t) => (
+              <div key={t.title} className="panel panel-hover rounded-2xl p-6">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-gold)]">{t.kind}</p>
+                <h3 className="mt-3 text-lg font-medium text-[var(--color-ink)]">{t.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">{t.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -513,8 +553,8 @@ export default function Home() {
             RWA but is permissioned — no public-chain access or self-custody; <span className="text-[var(--color-ink)]">Zama</span>{" "}
             brings FHE confidential tokens to Ethereum but isn&apos;t an RWA settlement venue with issuer controls and DvP;
             <span className="text-[var(--color-ink)]"> Renegade</span> nails private trading but carries no compliance
-            or issuer layer. Veil is the only one combining confidential holdings, issuer-rule compliance for permissioned
-            ERC-20s (and ERC-3643) with auditor disclosure, issuer controls, and private DvP on a public, self-custodial chain — for platforms on
+            or issuer layer. Veil is the only one combining confidential holdings, issuer-rule compliance with auditor
+            disclosure, issuer controls, and private DvP on a public, self-custodial chain — for platforms on
             EVM chains and Stellar, executed on Starknet.
           </p>
           <p className="mt-4 max-w-3xl text-xs leading-relaxed text-[var(--color-faint)]">
@@ -595,8 +635,7 @@ export default function Home() {
             <p className="mt-5 max-w-md text-[var(--color-muted)]">
               We run a low-risk pilot entirely on testnet for platforms on Ethereum and other EVM chains (Stellar
               coming next):
-              private positions in your rule-gated or allowlisted ERC-20, compliant settlement, issuer controls and
-              auditor access. Contracts are deployed and the SDK is ready — it&apos;s mostly
+              private positions, compliant settlement, issuer controls and auditor access. Contracts are deployed and the SDK is ready — it&apos;s mostly
               integration.
             </p>
             <ul className="mt-8 space-y-3 text-sm text-[var(--color-muted)]">
@@ -628,8 +667,7 @@ export default function Home() {
           <div>
             <Logo size={26} />
             <p className="mt-3 max-w-sm text-xs leading-relaxed text-[var(--color-faint)]">
-              The privacy and compliance layer for permissioned ERC-20s and tokenized real-world assets — for EVM
-              chains and Stellar,
+              The privacy and compliance layer for tokenized real-world assets — for EVM chains and Stellar,
               executed on Starknet.
             </p>
             <div className="mt-5 flex justify-center md:justify-start">

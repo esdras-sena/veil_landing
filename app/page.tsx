@@ -41,11 +41,11 @@ const features: { title: string; body: string; highlight?: boolean }[] = [
     body: "Asset-for-cash settles atomically, with the maker's limit price and per-token conservation enforced on-chain.",
   },
   {
-    title: "SNIP-36 proofs on Starknet",
-    body: "Private execution runs on Starknet: SNIP-36 in-protocol verification with the Stwo STARK prover — no trusted setup, post-quantum, no new chain.",
+    title: "SNIP-36 proofs",
+    body: "Each private action is proven with the Stwo STARK prover and verified in-protocol through SNIP-36 — no trusted setup, post-quantum, no new chain.",
   },
   {
-    title: "For EVM and Stellar. Executed on Starknet.",
+    title: "For EVM and Stellar platforms",
     body: "Your issuers and investors stay where they are. The Veil Bridge carries permissioned tokens from Ethereum and other EVM chains into Veil and back over LayerZero V2, and investors sign with the EVM wallets they already use — no Starknet account. Stellar support — Stellar wallets and classic Stellar assets through the Stellar Asset Contract — is built and coming next.",
     highlight: true,
   },
@@ -106,20 +106,16 @@ const compRows: { name: string; approach: string; highlight?: boolean; cells: Ma
 
 const whyStarknet = [
   {
-    title: "Proofs of the chain's own state",
-    body: "A SNIP-36 proof runs a transaction off-chain against a real, recent Starknet block and proves that execution. Its proof facts name the block it built on, and Veil's settle rejects any proof whose base block is stale — so compliance rules and holdings are checked as they stand on-chain at a recent block, not as a user claims they are.",
+    title: "Rules checked against current on-chain state",
+    body: "Veil has to check every private action against the issuer's rules and the user's holdings as they are on-chain. A SNIP-36 proof executes the transaction off-chain against a recent Starknet block and proves that execution. Its proof facts name that block, and Veil's settle rejects a proof whose base block is too old.",
   },
   {
-    title: "Verified by the protocol, not by a contract",
-    body: "The sequencer verifies the S-Two proof before the transaction propagates, and contracts read its facts through a syscall. Without this, a full STARK proof — tens of thousands of field elements — would exceed the size of a single transaction.",
+    title: "Full contract logic inside one proof",
+    body: "Each Veil action queries the token's rules contract or the issuer's allowlist (or, for an ERC-3643 token, its identity registry and compliance contract), decrypts the user's encrypted notes and verifies the wallet's signature — EVM secp256k1 today, Stellar Ed25519 next. SNIP-36 proves ordinary contract code, so this logic is written as contracts rather than a custom circuit, and a change to an issuer's rules applies to the next proof.",
   },
   {
-    title: "Whole contracts, not a fixed circuit",
-    body: "SNIP-36 proves ordinary Starknet contract code. Inside one Veil proof, the pool asks the token's rules contract or the issuer's allowlist (or, for an ERC-3643 token, its identity registry and compliance contract), decrypts the user's encrypted notes and verifies the wallet's signature — EVM secp256k1 today, Stellar Ed25519 next. When an issuer changes its rules, the next proof enforces them, with no new circuit.",
-  },
-  {
-    title: "Bound to Starknet by construction",
-    body: "Each Veil proof attests to a virtual Starknet block that continues a real Starknet block, and Starknet consensus is what verifies it. That is why Veil executes on Starknet while your issuers and investors stay on EVM chains and Stellar.",
+    title: "Proofs verified on-chain",
+    body: "Settlement needs each proof checked on-chain. Under SNIP-36 the sequencer verifies the proof before the transaction propagates, and the contract reads its facts through a syscall. A full STARK proof — tens of thousands of field elements — is too large to fit in a single transaction, so verifying it inside a contract is not practical.",
   },
 ];
 
@@ -238,7 +234,7 @@ export default function Home() {
           <p className="mt-10 text-balance text-xs leading-relaxed text-[var(--color-faint)]">
             {[
               "For EVM & Stellar platforms",
-              "Executed on Starknet",
+              "Execution layer: Starknet",
               "SNIP-36 in-protocol proofs",
               "Stwo STARK — no trusted setup",
               "Rule-gated + allowlisted ERC-20s",
@@ -382,14 +378,14 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <p className="kicker mb-4">Why Starknet</p>
           <h2 className="font-serif text-3xl leading-tight text-gradient md:text-4xl">
-            Veil&apos;s proofs only exist on Starknet.
+            Why Veil runs on Starknet
           </h2>
           <p className="mt-4 max-w-3xl text-[var(--color-muted)]">
-            Your clients stay on Ethereum, other EVM chains and Stellar. The private execution happens on Starknet,
-            because every private Veil action is proven with SNIP-36 — the protocol-native proof verification
-            Starknet shipped to mainnet in v0.14.2.
+            Veil needs proofs that full contract logic ran correctly against current on-chain state. SNIP-36
+            provides that on Starknet, so Veil&apos;s execution and settlement happen there, while issuers and
+            investors stay on EVM chains and Stellar.
           </p>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2">
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
             {whyStarknet.map((w) => (
               <div key={w.title} className="panel panel-hover rounded-2xl p-6">
                 <div className="mb-4 h-px w-10 bg-[var(--color-gold)]/70" />

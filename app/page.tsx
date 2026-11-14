@@ -636,13 +636,13 @@ export default function Home() {
             <div className="panel rounded-2xl p-6">
               <Image
                 src="/team/esdras.jpg"
-                alt="Esdras Evangelista de Sena Santos"
+                alt="Esdras Santos"
                 width={400}
                 height={400}
                 className="aspect-square w-full rounded-xl object-cover"
               />
               <p className="mt-5 text-xs uppercase tracking-[0.2em] text-[var(--color-gold)]">Founder, Veil</p>
-              <h3 className="mt-3 text-lg font-medium text-[var(--color-ink)]">Esdras Evangelista de Sena Santos</h3>
+              <h3 className="mt-3 text-lg font-medium text-[var(--color-ink)]">Esdras Santos</h3>
               <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
                 Previously founder of Typhoon, the first private payment protocol on Starknet.
               </p>

@@ -210,6 +210,7 @@ export default function Home() {
             <a className="transition hover:text-[var(--color-ink)]" href="#demos">Demos</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#compare">Compare</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#docs">Docs</a>
+            <a className="transition hover:text-[var(--color-ink)]" href="#team">Team</a>
             <a className="transition hover:text-[var(--color-ink)]" href="#pilot">Pilot</a>
           </div>
           <a href="#pilot" className="btn-gold rounded-full px-4 py-2 text-sm">
@@ -620,6 +621,32 @@ export default function Home() {
                 </a>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section id="team" className="border-t border-[var(--color-line)] px-5 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <p className="kicker mb-4">Team</p>
+          <h2 className="font-serif text-3xl leading-tight text-gradient md:text-4xl">
+            Team
+          </h2>
+          <div className="mt-12 max-w-sm">
+            <div className="panel rounded-2xl p-6">
+              <Image
+                src="/team/esdras.jpg"
+                alt="Esdras Evangelista de Sena Santos"
+                width={400}
+                height={400}
+                className="aspect-square w-full rounded-xl object-cover"
+              />
+              <p className="mt-5 text-xs uppercase tracking-[0.2em] text-[var(--color-gold)]">Founder, Veil</p>
+              <h3 className="mt-3 text-lg font-medium text-[var(--color-ink)]">Esdras Evangelista de Sena Santos</h3>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
+                Previously founder of Typhoon, the first private payment protocol on Starknet.
+              </p>
+            </div>
           </div>
         </div>
       </section>

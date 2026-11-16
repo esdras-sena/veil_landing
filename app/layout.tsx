@@ -18,7 +18,7 @@ const inter = Inter({
 
 const title = "Veil — Private, compliant settlement for tokenized real-world assets";
 const description =
-  "Veil is the confidential, compliant settlement layer for tokenized real-world assets — for platforms on Ethereum, other EVM chains and Stellar, with private execution on Starknet. Hidden positions and balances, issuer rules enforced inside every proof, issuer freeze & recovery, and authorized-auditor view keys.";
+  "Veil is the confidential, compliant settlement layer for tokenized real-world assets — native on Ethereum, other EVM chains and Starknet, with no bridging, and Stellar next. Hidden positions and balances, issuer rules enforced inside every proof, issuer freeze & recovery, and authorized-auditor view keys.";
 
 export const metadata: Metadata = {
   title,

@@ -130,12 +130,12 @@ const compRows: { name: string; approach: string; highlight?: boolean; cells: Ma
 const supportedChains = [
   {
     name: "Ethereum & EVM chains",
-    status: "Testnet · Ethereum Sepolia",
+    status: "Native",
     body: "Native on EVM. A Veil pool deployed on the chain holds the tokens and settles every private action there — deposit, private transfer, orders, DvP, withdraw. Assets never leave the chain and nothing is bridged. Investors use the EVM wallets they already have.",
   },
   {
     name: "Starknet",
-    status: "Testnet · Starknet Sepolia",
+    status: "Native",
     body: "Native on Starknet. Veil's pools run there directly, with each private action proven through SNIP-36 and verified in-protocol.",
   },
   {
